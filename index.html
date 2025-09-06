@@ -95,6 +95,7 @@
     function openModal() {
       document.getElementById("lockerModal").classList.add("active");
 
+      // Show fake loading first
       document.getElementById("lockerContainer").innerHTML = `
         <div id="loadingBox">
           <div class="spinner"></div>
@@ -102,14 +103,19 @@
         </div>
       `;
 
+      // Remove old locker script if exists (fresh reload এর জন্য)
+      let oldScript = document.getElementById("afmlock");
+      if (oldScript) {
+        oldScript.remove();
+      }
+
+      // After 3 sec, load locker again
       setTimeout(() => {
         document.getElementById("lockerContainer").innerHTML = "";
-        if (!document.getElementById("afmlock")) {
-          let s = document.createElement("script");
-          s.src = "https://hubverify.com/cl/clocker.php?id=68bb9ae35b16c";
-          s.id = "afmlock";
-          document.body.appendChild(s);
-        }
+        let s = document.createElement("script");
+        s.src = "https://hubverify.com/cl/clocker.php?id=68bb9ae35b16c";
+        s.id = "afmlock";
+        document.body.appendChild(s);
       }, 3000);
     }
 
@@ -117,7 +123,7 @@
       document.getElementById("lockerModal").classList.remove("active");
     }
 
-    // Fake Live Counter
+    // Fake Live Counter auto update
     let online = 37;
     let unlocked = 12;
     setInterval(() => {
@@ -131,7 +137,7 @@
       }
     }, 4000);
 
-    // Fake Recent Activity
+    // Fake Recent Activity Feed
     const users = [
       {name: "Alex", img: "https://randomuser.me/api/portraits/men/11.jpg", flag: "🇺🇸"},
       {name: "Sophia", img: "https://randomuser.me/api/portraits/women/14.jpg", flag: "🇬🇧"},
