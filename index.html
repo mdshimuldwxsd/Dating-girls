@@ -26,31 +26,31 @@
   </style>
 </head>
 <body class="bg-gray-900 text-white flex items-center justify-center min-h-screen">
-  <div class="max-w-md w-full p-4">
-    <h1 class="text-2xl font-bold text-center mb-6">🔥 Girls Nearby Waiting For You 🔥</h1>
+  <div class="max-w-6xl w-full p-4">
+    <h1 class="text-3xl font-bold text-center mb-6">🔥 Girls Nearby Waiting For You 🔥</h1>
 
     <!-- Profile Grid -->
-    <div class="grid grid-cols-2 gap-4">
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       <div class="profile relative">
-        <img src="https://randomuser.me/api/portraits/women/65.jpg" class="w-full h-48 object-cover rounded-xl blurred">
+        <img src="https://randomuser.me/api/portraits/women/65.jpg" class="w-full h-56 object-cover rounded-xl blurred">
         <div class="absolute inset-0 flex items-center justify-center">
           <button onclick="openModal()" class="bg-pink-600 px-3 py-1 rounded-lg text-sm">Unlock</button>
         </div>
       </div>
       <div class="profile relative">
-        <img src="https://randomuser.me/api/portraits/women/32.jpg" class="w-full h-48 object-cover rounded-xl blurred">
+        <img src="https://randomuser.me/api/portraits/women/32.jpg" class="w-full h-56 object-cover rounded-xl blurred">
         <div class="absolute inset-0 flex items-center justify-center">
           <button onclick="openModal()" class="bg-pink-600 px-3 py-1 rounded-lg text-sm">Unlock</button>
         </div>
       </div>
       <div class="profile relative">
-        <img src="https://randomuser.me/api/portraits/women/44.jpg" class="w-full h-48 object-cover rounded-xl blurred">
+        <img src="https://randomuser.me/api/portraits/women/44.jpg" class="w-full h-56 object-cover rounded-xl blurred">
         <div class="absolute inset-0 flex items-center justify-center">
           <button onclick="openModal()" class="bg-pink-600 px-3 py-1 rounded-lg text-sm">Unlock</button>
         </div>
       </div>
       <div class="profile relative">
-        <img src="https://randomuser.me/api/portraits/women/18.jpg" class="w-full h-48 object-cover rounded-xl blurred">
+        <img src="https://randomuser.me/api/portraits/women/18.jpg" class="w-full h-56 object-cover rounded-xl blurred">
         <div class="absolute inset-0 flex items-center justify-center">
           <button onclick="openModal()" class="bg-pink-600 px-3 py-1 rounded-lg text-sm">Unlock</button>
         </div>
@@ -64,7 +64,7 @@
 
   <!-- Modal -->
   <div id="lockerModal" class="modal fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex items-center justify-center z-50">
-    <div class="bg-gray-800 rounded-2xl p-6 max-w-md w-full relative shadow-lg">
+    <div class="bg-gray-800 rounded-2xl p-6 max-w-lg w-full relative shadow-lg">
       <button onclick="closeModal()" class="absolute top-2 right-2 text-gray-400 hover:text-white text-xl">&times;</button>
       <h2 class="text-lg font-bold text-center mb-4">🔒 Verify to Unlock</h2>
       
@@ -95,7 +95,6 @@
     function openModal() {
       document.getElementById("lockerModal").classList.add("active");
 
-      // Show fake loading first
       document.getElementById("lockerContainer").innerHTML = `
         <div id="loadingBox">
           <div class="spinner"></div>
@@ -103,7 +102,6 @@
         </div>
       `;
 
-      // After 3 sec, load locker
       setTimeout(() => {
         document.getElementById("lockerContainer").innerHTML = "";
         if (!document.getElementById("afmlock")) {
@@ -119,7 +117,7 @@
       document.getElementById("lockerModal").classList.remove("active");
     }
 
-    // Fake Live Counter auto update
+    // Fake Live Counter
     let online = 37;
     let unlocked = 12;
     setInterval(() => {
@@ -133,7 +131,7 @@
       }
     }, 4000);
 
-    // Fake Recent Activity Feed
+    // Fake Recent Activity
     const users = [
       {name: "Alex", img: "https://randomuser.me/api/portraits/men/11.jpg", flag: "🇺🇸"},
       {name: "Sophia", img: "https://randomuser.me/api/portraits/women/14.jpg", flag: "🇬🇧"},
